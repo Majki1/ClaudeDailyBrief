@@ -1,29 +1,31 @@
 # Daily Brief · Scheduled Task Prompt
 
 Paste this into the Claude Co-Work scheduled task that runs once per morning.
-It assumes the local dashboard is running at `http://127.0.0.1:3101` (adjust
-the host/port if you host it elsewhere — everything else stays the same).
+
+It uses the `daily-brief` MCP server to post data to the dashboard. See
+[`mcp/README.md`](./mcp/README.md) for setup instructions.
 
 ---
 
 ## Prompt
 
 You are generating my daily brief. Your job is to research, deduplicate, and
-then POST a single well-formed JSON payload to my local dashboard. Do not
-write prose back to me — the dashboard is the output.
+then post a single well-formed JSON payload to my dashboard using the
+`post_brief` MCP tool. Do not write prose back to me — the dashboard is the
+output.
 
 ### Step 1 — Derive today's date
 
 Compute today's date in Europe/Zagreb time as `YYYY-MM-DD`. Use this value
-for the `date` field in the payload and for the `before` query param when
+for the `date` field in the payload and for the `before` param when
 fetching news context.
 
 ### Step 2 — Pull news dedup context first
 
-Before researching any news, fetch:
+Before researching any news, call the `get_news_context` tool:
 
 ```
-GET http://127.0.0.1:3101/api/news-context?days=7&before=<today>
+get_news_context({ days: 7, before: "<today>" })
 ```
 
 Treat every item in the `items` array as **already covered** in a previous
@@ -85,93 +87,29 @@ glance, and the biggest news headline. No fluff.
 
 ### Step 5 — POST the brief
 
-Send exactly one request:
+Call the `post_brief` tool with the full brief object:
 
 ```
-POST http://127.0.0.1:3101/api/brief
-Content-Type: application/json
-```
-
-with this body (fields with `?` are optional; send empty arrays rather than
-`null` where applicable):
-
-```jsonc
-{
-  "date": "YYYY-MM-DD",
-  "generatedAt": "<ISO 8601 datetime>",
-  "summary": "<2–3 sentence TL;DR>",
-  "calendar": {
-    "events": [
-      {
-        "title": "...",
-        "start": "HH:mm or ISO",
-        "end": "HH:mm or ISO?",
-        "location": "...?",
-        "description": "...?",
-        "calendar": "Work | Personal | ...?",
-        "allDay": false
-      }
-    ]
-  },
-  "tasks": {
-    "sprintName": "...",
-    "sprintDates": "Apr 20 – Apr 26",
-    "items": [
-      {
-        "title": "...",
-        "status": "Todo | In progress | In review | Blocked | Done",
-        "priority": "High | Medium | Low?",
-        "project": "...?",
-        "dueDate": "Apr 25?",
-        "url": "https://www.notion.so/...?"
-      }
-    ]
-  },
-  "posts": {
-    "items": [
-      {
-        "title": "...",
-        "platform": "Instagram | X | TikTok | LinkedIn | ...",
-        "status": "Ready | Scheduled | Draft",
-        "scheduledFor": "18:00 or YYYY-MM-DD HH:mm",
-        "caption": "...?",
-        "url": "https://www.notion.so/...?",
-        "tags": ["..."]
-      }
-    ]
-  },
-  "weather": {
-    "location": "Rijeka, Croatia",
-    "summary": "One-sentence outlook.",
-    "current": {
-      "tempC": 17,
-      "feelsLikeC": 16,
-      "condition": "Clear",
-      "humidity": 58,
-      "windKph": 12
-    },
-    "forecast": [
-      { "time": "09:00", "tempC": 15, "condition": "Clear" }
-    ]
-  },
-  "news": {
-    "items": [
-      {
-        "title": "...",
-        "topic": "Claude | Expo | React Native | Swift | SwiftUI",
-        "summary": "1–2 sentence summary. Lead with what's new.",
-        "source": "The Information | Anthropic blog | ...",
-        "url": "https://..."
-      }
-    ]
+post_brief({
+  brief: {
+    "date": "YYYY-MM-DD",
+    "generatedAt": "<ISO 8601 datetime>",
+    "summary": "<2–3 sentence TL;DR>",
+    "calendar": { "events": [...] },
+    "tasks": { "sprintName": "...", "sprintDates": "...", "items": [...] },
+    "posts": { "items": [...] },
+    "weather": { "location": "Rijeka, Croatia", "summary": "...", "current": {...}, "forecast": [...] },
+    "news": { "items": [...] }
   }
-}
+})
 ```
+
+See [`lib/brief-schema.ts`](./lib/brief-schema.ts) for the full Zod schema.
 
 ### Rules
 
-- Send **exactly one** POST. If it returns 4xx, read the `issues` array,
-  fix, and retry once. Do not retry on success.
+- Call `post_brief` **exactly once**. If it returns an error, read the
+  message, fix, and retry once. Do not retry on success.
 - Never include a news item already covered (see Step 2) unless there is a
   real update. When in doubt, leave it out.
 - Never fabricate events, tasks, posts, weather, or news. Omit rather than
@@ -184,5 +122,5 @@ with this body (fields with `?` are optional; send empty arrays rather than
 
 ### Success criterion
 
-The POST returns `200` with `{ "ok": true, "brief": ... }`. That's the
+The `post_brief` tool returns `{ "ok": true, "brief": ... }`. That's the
 signal the brief is live on the dashboard. End the task.
