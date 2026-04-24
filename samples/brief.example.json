@@ -1,0 +1,146 @@
+{
+  "date": "2026-04-24",
+  "generatedAt": "2026-04-24T07:00:00.000Z",
+  "summary": "Light calendar today with a review in the morning. Active sprint is behind on 2 tasks that need to ship before Sunday. Three community posts queued. Clear skies in Rijeka. Notable news: Claude 4.7 rumored, Expo SDK 53 beta.",
+  "calendar": {
+    "events": [
+      {
+        "title": "Morning review · TerraStride",
+        "start": "09:30",
+        "end": "10:00",
+        "location": "Home office",
+        "calendar": "Work"
+      },
+      {
+        "title": "1:1 with design",
+        "start": "14:00",
+        "end": "14:30",
+        "description": "Review Rhythm onboarding flow mocks.",
+        "calendar": "Work"
+      },
+      {
+        "title": "Run · 8km tempo",
+        "start": "18:30",
+        "end": "19:30",
+        "calendar": "Personal"
+      }
+    ]
+  },
+  "tasks": {
+    "sprintName": "Sprint 14 · Community growth",
+    "sprintDates": "Apr 20 – Apr 26",
+    "items": [
+      {
+        "title": "Ship TestFlight build 1.4.2",
+        "status": "In progress",
+        "priority": "High",
+        "project": "TerraStride",
+        "dueDate": "Apr 25"
+      },
+      {
+        "title": "Draft Rhythm onboarding copy",
+        "status": "In review",
+        "priority": "Medium",
+        "project": "Rhythm",
+        "dueDate": "Apr 26"
+      },
+      {
+        "title": "Publish community recap",
+        "status": "Blocked",
+        "priority": "High",
+        "project": "TerraStride",
+        "dueDate": "Apr 24",
+        "notes": "Waiting on final photos"
+      },
+      {
+        "title": "Research VisionOS interaction patterns",
+        "status": "Todo",
+        "priority": "Low",
+        "project": "Gestura"
+      }
+    ]
+  },
+  "posts": {
+    "items": [
+      {
+        "title": "Community ask: What would your dream running event look like?",
+        "platform": "Instagram",
+        "status": "Ready",
+        "scheduledFor": "18:00",
+        "tags": ["running", "community"],
+        "caption": "Tell us — rooftop 5K at sunset? Night trail with glow sticks? Go wild in the replies."
+      },
+      {
+        "title": "Behind-the-scenes: sprint 14 progress thread",
+        "platform": "X",
+        "status": "Draft",
+        "scheduledFor": "20:30"
+      },
+      {
+        "title": "Founder note · why we rebuilt onboarding",
+        "platform": "LinkedIn",
+        "status": "Scheduled",
+        "scheduledFor": "Tomorrow 09:00"
+      }
+    ]
+  },
+  "weather": {
+    "location": "Rijeka, Croatia",
+    "summary": "Clear and mild. Light NE breeze along the coast. No precipitation expected.",
+    "current": {
+      "tempC": 17,
+      "feelsLikeC": 16,
+      "condition": "Clear",
+      "humidity": 58,
+      "windKph": 12
+    },
+    "forecast": [
+      { "time": "09:00", "tempC": 15, "condition": "Clear" },
+      { "time": "12:00", "tempC": 19, "condition": "Sunny" },
+      { "time": "15:00", "tempC": 21, "condition": "Sunny" },
+      { "time": "18:00", "tempC": 18, "condition": "Clear" },
+      { "time": "21:00", "tempC": 14, "condition": "Clear" }
+    ]
+  },
+  "news": {
+    "items": [
+      {
+        "title": "Claude 4.7 Opus expected this quarter",
+        "topic": "Claude",
+        "summary": "Anthropic is reportedly preparing a mid-cycle Opus refresh focused on long-horizon agent tasks and tool use reliability.",
+        "source": "The Information",
+        "url": "https://example.com/claude-47"
+      },
+      {
+        "title": "Claude Code Cloud Agents now generally available",
+        "topic": "Claude",
+        "summary": "Parallel cloud agents with workspace isolation leave preview. Pricing drops 20% for teams on annual billing.",
+        "source": "Anthropic blog"
+      },
+      {
+        "title": "Expo SDK 53 beta adds React 19.2 + RSC-on-native preview",
+        "topic": "Expo",
+        "summary": "Server Components run on-device via a new Metro/Hermes bridge. Beta opt-in via expo install --beta.",
+        "source": "Expo"
+      },
+      {
+        "title": "React Native 0.79 ships Fabric-only builds",
+        "topic": "React Native",
+        "summary": "The legacy bridge is gone for new templates. Existing apps can still opt in for one more cycle.",
+        "source": "reactnative.dev"
+      },
+      {
+        "title": "Swift 6.2 approachable concurrency now default in Xcode 27",
+        "topic": "Swift",
+        "summary": "Single-threaded by default with @concurrent opt-in for background work. Most apps compile with zero sendability errors out of the box.",
+        "source": "Swift.org"
+      },
+      {
+        "title": "SwiftUI introduces LazyAdaptiveGrid for dynamic layouts",
+        "topic": "SwiftUI",
+        "summary": "A new container that reflows between columns and rows based on available width, replacing most LazyVGrid/HGrid patterns.",
+        "source": "Apple Developer"
+      }
+    ]
+  }
+}

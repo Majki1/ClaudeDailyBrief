@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #0b0b0f;
+  --color-surface-raised: #111118;
+  --color-surface-muted: #15151f;
+  --color-border: #1f1f2c;
+  --color-border-strong: #2a2a3a;
+  --color-text: #ededf2;
+  --color-text-muted: #a1a1b0;
+  --color-text-subtle: #6b6b7c;
+
+  --color-accent: #f4a948;
+  --color-accent-soft: #f4a94822;
+  --color-accent-strong: #fbbf24;
+
+  --color-topic-claude: #b794f6;
+  --color-topic-expo: #4fd1c5;
+  --color-topic-react-native: #60a5fa;
+  --color-topic-swift: #fb923c;
+  --color-topic-swiftui: #f472b6;
+  --color-topic-other: #94a3b8;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular",
+    "JetBrains Mono", Menlo, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+}
+
+body {
+  background-image:
+    radial-gradient(1200px 600px at 10% -10%, #1d1a10 0%, transparent 60%),
+    radial-gradient(900px 500px at 90% -20%, #10161d 0%, transparent 55%),
+    linear-gradient(180deg, #0b0b0f 0%, #0b0b0f 100%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
