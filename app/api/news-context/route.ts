@@ -4,6 +4,16 @@ import { getNewsContext } from "@/lib/brief-store";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 /**
  * Returns the news items written in recent briefs so the Co-Work scheduled task
  * can deduplicate stories it already covered. Call this before generating a new
@@ -32,13 +42,13 @@ export async function GET(request: Request) {
         instructions:
           "These news items were already covered in the listed recent briefs. Do not repeat them verbatim; if a story has a genuine update, lead with the new angle and note what changed.",
       },
-      { status: 200 },
+      { status: 200, headers: corsHeaders },
     );
   } catch (err) {
     console.error("[api/news-context] failed", err);
     return NextResponse.json(
       { error: "Failed to build news context." },
-      { status: 500 },
+      { status: 500, headers: corsHeaders },
     );
   }
 }
